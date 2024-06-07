@@ -89,7 +89,7 @@ fun SecondStyleOnboardingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(20.dp))
-        Image(mainImage, "Image from @tegarsip103 on Vecteezy.com", modifier = Modifier.size(300.dp))
+        Image(mainImage, "Image from Vecteezy.com", modifier = Modifier.size(300.dp))
         Spacer(modifier = Modifier.height(20.dp))
         SecondIndicator(state = onboardingState, modifier = Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.height(60.dp))

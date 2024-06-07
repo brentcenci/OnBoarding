@@ -37,6 +37,7 @@ import com.example.onboarding.ui.indicators.ThirdIndicator
 
 @Composable
 fun ThirdStyle(modifier: Modifier = Modifier, navController: NavController) {
+    //Lines Background Vectors by Vecteezy
     val state = rememberOnboardingState(numScreens = 3)
     Onboarding(
         state = state, {
@@ -86,7 +87,7 @@ fun ThirdStyleOnboardingScreen(
             .padding(20.dp),
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        Image(mainImage, "", modifier = Modifier.size(400.dp))
+        Image(mainImage, "Image from Vecteezy.com", modifier = Modifier.size(400.dp))
 
         Spacer(modifier = Modifier.weight(1f))
         Text(text = title, color = Color.Black, fontWeight = FontWeight.SemiBold, fontSize = 24.sp, textAlign = TextAlign.Start)
