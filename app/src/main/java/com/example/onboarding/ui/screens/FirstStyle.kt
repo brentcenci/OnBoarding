@@ -20,16 +20,49 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.onboarding.Onboarding
 import com.example.onboarding.OnboardingState
+import com.example.onboarding.R
+import com.example.onboarding.rememberOnboardingState
 import com.example.onboarding.ui.indicators.FirstIndicator
 
 @Composable
 fun FirstStyle(modifier: Modifier = Modifier) {
-
+    val state = rememberOnboardingState(numScreens = 3)
+    Onboarding(
+        state = state, {
+            FirstStyleOnboardingScreen(
+                headerImage = painterResource(id = R.drawable.image1),
+                title = "Discover a new way to live your life",
+                subtitle = "Unlock exclusive travel experiences tailored just for you by Travel Company Name, making each journey unforgettable and unique.",
+                buttonText = "Get Started",
+                onboardingState = it
+            )
+        },
+        {
+            FirstStyleOnboardingScreen(
+                headerImage = painterResource(id = R.drawable.image2),
+                title = "Challenge yourself with exciting adventures",
+                subtitle = "Push your limits with thrilling adventures, designed to inspire and invigorate your spirit of exploration.",
+                buttonText = "Next",
+                onboardingState = it
+            )
+        },
+        {
+            FirstStyleOnboardingScreen(
+                headerImage = painterResource(id = R.drawable.image3),
+                title = "Experience more of what life has to offer",
+                subtitle = "Discover a world of endless possibilities, offering enriching experiences that broaden your horizons and enhance your life.",
+                buttonText = "Next",
+                onboardingState = it
+            )
+        }
+    )
 }
 
 @Composable

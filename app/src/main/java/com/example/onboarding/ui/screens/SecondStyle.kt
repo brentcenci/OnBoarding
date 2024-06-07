@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
@@ -29,12 +30,45 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.onboarding.Onboarding
 import com.example.onboarding.OnboardingState
+import com.example.onboarding.R
+import com.example.onboarding.rememberOnboardingState
 import com.example.onboarding.ui.indicators.SecondIndicator
 
 @Composable
 fun SecondStyle(modifier: Modifier = Modifier) {
     //Images sourced from: @tegarsip103 on Vecteezy.com
+    val state = rememberOnboardingState(numScreens = 3)
+    Onboarding(
+        state = state, {
+            SecondStyleOnboardingScreen(
+                mainImage = painterResource(id = R.drawable.person1),
+                title = "Enter your details",
+                subtitle = "Help us get to know you by answering our general questions.",
+                buttonText = "Get Started",
+                onboardingState = it
+            )
+        },
+        {
+            SecondStyleOnboardingScreen(
+                mainImage = painterResource(id = R.drawable.person2),
+                title = "Connect to others",
+                subtitle = "Using your details, we will help you to connect to another user.",
+                buttonText = "Okay",
+                onboardingState = it
+            )
+        },
+        {
+            SecondStyleOnboardingScreen(
+                mainImage = painterResource(id = R.drawable.person3),
+                title = "Support is here",
+                subtitle = "If you're not feeling it, connect instead to someone else!",
+                buttonText = "Let's Go",
+                onboardingState = it
+            )
+        }
+    )
 }
 
 @Composable
@@ -58,7 +92,8 @@ fun SecondStyleOnboardingScreen(
         Spacer(modifier = Modifier.height(20.dp))
         SecondIndicator(state = onboardingState, modifier = Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.height(60.dp))
-        Text(text = title.uppercase(), color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 20.sp, textAlign = TextAlign.Center)
+        Text(text = title.uppercase(), color = Color.Black, fontWeight = FontWeight.SemiBold, fontSize = 24.sp, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(5.dp))
         Text(text = subtitle, color = Color.Gray, fontWeight = FontWeight.Normal, fontSize = 14.sp, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(20.dp))
         Button(

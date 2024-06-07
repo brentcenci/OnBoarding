@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.onboarding.ui.screens.FirstStyle
 import com.example.onboarding.ui.screens.FirstStyleOnboardingScreen
+import com.example.onboarding.ui.screens.SecondStyle
 import com.example.onboarding.ui.screens.SecondStyleOnboardingScreen
 import com.example.onboarding.ui.theme.OnBoardingTheme
 
@@ -59,73 +60,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             OnBoardingTheme {
-                /*val stateOne = rememberOnboardingState(numScreens = 3)
-                Onboarding(
-                    state = stateOne, {
-                        FirstStyleOnboardingScreen(
-                            headerImage = painterResource(id = R.drawable.image1),
-                            title = "Life is short and the world is wide",
-                            subtitle = "At Friends tours and travel, " +
-                                    "we customize reliable and trustworthy educational tours " +
-                                    "to destinations all over the world",
-                            buttonText = "Get Started",
-                            onboardingState = it
-                        )
-                    },
-                    {
-                        FirstStyleOnboardingScreen(
-                            headerImage = painterResource(id = R.drawable.image2),
-                            title = "It's a big world out there go explore",
-                            subtitle = "To get the best of your adventure you " +
-                                    "just need to leave and go where you like. " +
-                                    "We are waiting for you!",
-                            buttonText = "Next",
-                            onboardingState = it
-                        )
-                    },
-                    {
-                        FirstStyleOnboardingScreen(
-                            headerImage = painterResource(id = R.drawable.image3),
-                            title = "People don't take trips, trips take people",
-                            subtitle = "This title is kind of creepy. " +
-                                    "What do they mean, trips take people? " +
-                                    "Like casualties? I don't want to be a casualty!",
-                            buttonText = "Next",
-                            onboardingState = it
-                        )
-                    }
-                )*/
-                val stateTwo = rememberOnboardingState(numScreens = 3)
-                Onboarding(
-                    state = stateTwo, {
-                        SecondStyleOnboardingScreen(
-                            mainImage = painterResource(id = R.drawable.person1),
-                            title = "Enter your details",
-                            subtitle = "Help us get to know you by answering our general questions.",
-                            buttonText = "Get Started",
-                            onboardingState = it
-                        )
-                    },
-                    {
-                        SecondStyleOnboardingScreen(
-                            mainImage = painterResource(id = R.drawable.person2),
-                            title = "Connect to others",
-                            subtitle = "Using your details, we will help you to connect to another user.",
-                            buttonText = "Okay",
-                            onboardingState = it
-                        )
-                    },
-                    {
-                        SecondStyleOnboardingScreen(
-                            mainImage = painterResource(id = R.drawable.person3),
-                            title = "Support is here",
-                            subtitle = "If you're not feeling it, connect instead to someone else!",
-                            buttonText = "Let's Go",
-                            onboardingState = it
-                        )
-                    }
-                )
 
+                FirstStyle()
             }
         }
     }
