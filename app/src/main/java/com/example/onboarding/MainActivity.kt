@@ -11,6 +11,7 @@ import com.example.onboarding.ui.screens.FirstStyle
 import com.example.onboarding.ui.screens.Home
 import com.example.onboarding.ui.screens.Screen
 import com.example.onboarding.ui.screens.SecondStyle
+import com.example.onboarding.ui.screens.ThirdStyle
 import com.example.onboarding.ui.theme.OnBoardingTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +35,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = Screen.Second.route) {
                         SecondStyle(navController = navController)
+                    }
+                    composable(route = Screen.Third.route) {
+                        ThirdStyle(navController = navController)
                     }
                 }
             }

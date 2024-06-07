@@ -16,5 +16,8 @@ fun Home(modifier: Modifier = Modifier, navController: NavController) {
         Button(onClick = { navController.navigate(Screen.Second.route) }) {
             Text("Go to the Second example")
         }
+        Button(onClick = { navController.navigate(Screen.Third.route) }) {
+            Text("Go to the Third example")
+        }
     }
 }
