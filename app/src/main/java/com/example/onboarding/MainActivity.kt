@@ -19,6 +19,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             OnBoardingTheme {
+
+                //Simple Compose Navigation implementation with the standard dependency
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
