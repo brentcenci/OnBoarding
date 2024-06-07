@@ -29,6 +29,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -71,10 +74,35 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ScreenIndicator(modifier: Modifier = Modifier, current: Int, total: Int) {
-    Row {
-        
-        Box(modifier = Modifier.clip(RoundedCornerShape(50)))
+    Row(modifier = modifier) {
+        repeat(total) {
+            val weight = if (it == current) 3f else 1f
+            val color = if (it == current) Color(13,110,253,255) else Color.White
+            Box(modifier = Modifier
+                .padding(horizontal = 2.dp)
+                .clip(RoundedCornerShape(50))
+                .background(color)
+                .height(8.dp)
+                .weight(weight))
+        }
     }
+}
+
+class IndicatorState(
+    private var current: Int = 0,
+    private val total: Int = 1
+) {
+    fun goForward() {
+        if (current<total-1) current++
+    }
+    fun goBack() {
+        if (current>0) current--
+    }
+}
+
+@Composable
+fun rememberIndicatorState(start: Int = 0, total: Int = 1): IndicatorState {
+    return remember { mutableStateOf(IndicatorState(start, total)) }.value
 }
 
 @Composable
@@ -84,8 +112,9 @@ fun OnBoardingScreen(
     title: String,
     subtitle: String,
     buttonText: String,
-    indicator: @Composable (Int, Int) -> Unit = { current, total ->
-        Text("Current: $current out of $total", color = Color.White )
+    indicator: @Composable (Modifier, Int, Int) -> Unit = { thismodifier, current, total ->
+        //Text("Current: $current out of $total", color = Color.White )
+        ScreenIndicator(modifier = thismodifier, current = current, total = total)
     }
 ) {
     Column(
@@ -109,10 +138,13 @@ fun OnBoardingScreen(
                 Text(text = title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 30.sp, textAlign = TextAlign.Center, lineHeight = 36.sp)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = subtitle, color = Color(112,112,124,255), fontSize = 15.sp, textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(20.dp))
             }
 
-            indicator(1, 2)
+            indicator(
+                Modifier
+                    .fillMaxWidth(0.2f)
+                    .align(Alignment.CenterHorizontally),1, 3)
 
             Spacer(modifier = Modifier.height(20.dp))
             Button(
@@ -131,5 +163,5 @@ fun OnBoardingScreen(
 
 @Composable
 fun OnBoardingScreens(modifier: Modifier = Modifier, vararg screens: @Composable () -> Unit) {
-
+    val indicatorState = rememberIndicatorState()
 }
