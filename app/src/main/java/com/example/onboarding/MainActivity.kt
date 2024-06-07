@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,13 +60,49 @@ class MainActivity : ComponentActivity() {
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )*/
+                    /*val indicatorState = rememberIndicatorState(total = 4)
+
                     OnBoardingScreen(
                         headerImage = painterResource(id = R.drawable.image1),
                         title = "Life is short and the world is wide",
                         subtitle = "At Friends tours and travel, " +
                                 "we customize reliable and trustworthy educational tours " +
                                 "to destinations all over the world",
-                        buttonText = "Get Started")
+                        buttonText = "Get Started",
+                        indicator = indicatorState
+                    )*/
+                    val state = rememberOnboardingState(numScreens = 3)
+                    Onboarding(
+                        state = state, {
+                            TestScreen(
+                                headerImage = painterResource(id = R.drawable.image1),
+                                title = "Life is short and the world is wide",
+                                subtitle = "At Friends tours and travel, " +
+                                        "we customize reliable and trustworthy educational tours " +
+                                        "to destinations all over the world",
+                                buttonText = "Get Started",
+                                onboardingState = it
+                            )
+                        },
+                        {
+                            TestScreen(
+                                headerImage = painterResource(id = R.drawable.image2),
+                                title = "It's a big world out there go explore",
+                                subtitle = "To get the best of your adventure you just need to leave and go where you like. We are waiting for you!",
+                                buttonText = "Next",
+                                onboardingState = it
+                            )
+                        },
+                        {
+                            TestScreen(
+                                headerImage = painterResource(id = R.drawable.image3),
+                                title = "People don't take trips, trips take people",
+                                subtitle = "This title is kind of creepy. What do they mean, trips take people? Like casualties? I don't want to be a casualty!",
+                                buttonText = "Next",
+                                onboardingState = it
+                            )
+                        }
+                    )
                 }
             }
         }
@@ -73,24 +110,30 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ScreenIndicator(modifier: Modifier = Modifier, current: Int, total: Int) {
+fun ScreenIndicator(modifier: Modifier = Modifier, state: IndicatorState) {
     Row(modifier = modifier) {
-        repeat(total) {
-            val weight = if (it == current) 3f else 1f
-            val color = if (it == current) Color(13,110,253,255) else Color.White
+        repeat(state.total) {
+            val weight = if (it == state.current) 3f else 1f
+            val color = if (it == state.current) Color(13,110,253,255) else Color.White
             Box(modifier = Modifier
                 .padding(horizontal = 2.dp)
                 .clip(RoundedCornerShape(50))
                 .background(color)
                 .height(8.dp)
-                .weight(weight))
+                .weight(weight)
+                .clickable {
+                    state.current = it
+                    println(state.current)
+                    println(state.total)
+                }
+            )
         }
     }
 }
 
 class IndicatorState(
-    private var current: Int = 0,
-    private val total: Int = 1
+    var current: Int = 0,
+    val total: Int = 1
 ) {
     fun goForward() {
         if (current<total-1) current++
@@ -101,8 +144,8 @@ class IndicatorState(
 }
 
 @Composable
-fun rememberIndicatorState(start: Int = 0, total: Int = 1): IndicatorState {
-    return remember { mutableStateOf(IndicatorState(start, total)) }.value
+fun rememberIndicatorState(current: Int = 0, total: Int = 1): IndicatorState {
+    return remember { mutableStateOf(IndicatorState(current, total)) }.value
 }
 
 @Composable
@@ -112,11 +155,9 @@ fun OnBoardingScreen(
     title: String,
     subtitle: String,
     buttonText: String,
-    indicator: @Composable (Modifier, Int, Int) -> Unit = { thismodifier, current, total ->
-        //Text("Current: $current out of $total", color = Color.White )
-        ScreenIndicator(modifier = thismodifier, current = current, total = total)
-    }
+    indicator: IndicatorState
 ) {
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -141,10 +182,9 @@ fun OnBoardingScreen(
                 Spacer(modifier = Modifier.height(20.dp))
             }
 
-            indicator(
-                Modifier
-                    .fillMaxWidth(0.2f)
-                    .align(Alignment.CenterHorizontally),1, 3)
+            ScreenIndicator(state = indicator, modifier = Modifier
+                .fillMaxWidth(0.3f)
+                .align(Alignment.CenterHorizontally))
 
             Spacer(modifier = Modifier.height(20.dp))
             Button(
@@ -160,8 +200,119 @@ fun OnBoardingScreen(
         }
     }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Composable
-fun OnBoardingScreens(modifier: Modifier = Modifier, vararg screens: @Composable () -> Unit) {
-    val indicatorState = rememberIndicatorState()
+fun OnboardingIndicator(modifier: Modifier = Modifier, state: OnboardingState) {
+    Row(modifier = modifier) {
+        repeat(state.numScreens) {
+            val weight = if (it == state.currentScreen) 3f else 1f
+            val color = if (it == state.currentScreen) Color(13,110,253,255) else Color.White
+            Box(modifier = Modifier
+                .padding(horizontal = 2.dp)
+                .clip(RoundedCornerShape(50))
+                .background(color)
+                .height(8.dp)
+                .weight(weight)
+                .clickable {
+                    state.goTo(it)
+                }
+            )
+        }
+    }
+}
+
+data class OnboardingState(
+    val currentScreen: Int = 0,
+    val numScreens: Int,
+    val goNext: () -> Unit = { },
+    val goBack: () -> Unit = { },
+    val goTo: (Int) -> Unit = { }
+)
+
+@Composable
+fun rememberOnboardingState(numScreens: Int): MutableState<OnboardingState> {
+    val state = remember { mutableStateOf(OnboardingState(numScreens = numScreens)) }
+
+    state.value = state.value.copy(
+        goNext = {
+            if (state.value.currentScreen < state.value.numScreens - 1) {
+                state.value = state.value.copy(currentScreen = state.value.currentScreen + 1)
+            }
+        },
+        goBack = {
+            if (state.value.currentScreen > 0) {
+                state.value = state.value.copy(currentScreen = state.value.currentScreen - 1)
+            }
+        },
+        goTo = {destination ->
+            if (state.value.currentScreen != destination) {
+                state.value = state.value.copy(currentScreen = destination)
+            }
+        }
+    )
+
+    return state
+}
+
+@Composable
+fun Onboarding(
+    state: MutableState<OnboardingState>,
+    vararg screens: @Composable (OnboardingState) -> Unit
+) {
+    screens[state.value.currentScreen](state.value)
+}
+
+@Composable
+fun TestScreen(
+    modifier: Modifier = Modifier,
+    headerImage: Painter,
+    title: String,
+    subtitle: String,
+    buttonText: String,
+    onboardingState: OnboardingState
+) {
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color(22, 24, 31, 255)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            headerImage,
+            contentDescription = "Header",
+            modifier = Modifier
+                .fillMaxHeight(0.6f)
+                .clip(RoundedCornerShape(bottomEnd = 20.dp, bottomStart = 20.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(text = title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 30.sp, textAlign = TextAlign.Center, lineHeight = 36.sp)
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = subtitle, color = Color(112,112,124,255), fontSize = 15.sp, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+
+            OnboardingIndicator(state = onboardingState, modifier = Modifier
+                .fillMaxWidth(0.3f)
+                .align(Alignment.CenterHorizontally))
+
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                onClick = { onboardingState.goNext() },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(13,110,253,255), contentColor = Color.White),
+                shape = RoundedCornerShape(20),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+            ) {
+                Text(text = buttonText, fontSize = 18.sp)
+            }
+        }
+    }
 }
