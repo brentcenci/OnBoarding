@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.onboarding.Onboarding
 import com.example.onboarding.OnboardingState
 import com.example.onboarding.R
@@ -32,7 +33,7 @@ import com.example.onboarding.rememberOnboardingState
 import com.example.onboarding.ui.indicators.FirstIndicator
 
 @Composable
-fun FirstStyle(modifier: Modifier = Modifier) {
+fun FirstStyle(modifier: Modifier = Modifier, navController: NavController) {
     val state = rememberOnboardingState(numScreens = 3)
     Onboarding(
         state = state, {
