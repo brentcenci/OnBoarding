@@ -45,7 +45,7 @@ fun ThirdStyle(modifier: Modifier = Modifier, navController: NavController) {
                 mainImage = painterResource(id = R.drawable.third1),
                 title = "Simpler. Better.",
                 subtitle = "We make it easier to buy products online. Place an order with us for quick and seamless service.",
-                buttonText = "Get Started",
+                buttonText = "Next",
                 onboardingState = it
             )
         },
@@ -54,7 +54,7 @@ fun ThirdStyle(modifier: Modifier = Modifier, navController: NavController) {
                 mainImage = painterResource(id = R.drawable.third2),
                 title = "Sourcing.",
                 subtitle = "Our effective staff will find the best source for your products to provide you with the earliest arrival.",
-                buttonText = "Okay",
+                buttonText = "Next",
                 onboardingState = it
             )
         },
@@ -63,7 +63,7 @@ fun ThirdStyle(modifier: Modifier = Modifier, navController: NavController) {
                 mainImage = painterResource(id = R.drawable.third3),
                 title = "Direct to you.",
                 subtitle = "We do all the heavy lifting, so you can sit back and watch as your product arrives at your doorstep.",
-                buttonText = "Let's Go",
+                buttonText = "Next",
                 onboardingState = it
             )
         }
