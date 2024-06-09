@@ -12,6 +12,10 @@ Clone this repo for three different examples of how to use this feature in your 
 ![App Screenshot](https://i.imgur.com/L6yJtpV.png)
 ## Usage/Examples
 
+### Put the file in your project
+
+Copy the `Onboarding.kt` file into your project. That's all you'll need.
+
 ### Using it in your project
 
 Create an `OnboardingState` using the `rememberOnboardingState()` function, and pass in the number of screens you will be using.
