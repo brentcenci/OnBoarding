@@ -86,7 +86,7 @@ fun FirstStyleOnboardingScreen(
             headerImage,
             contentDescription = "Header",
             modifier = Modifier
-                .fillMaxHeight(0.6f)
+                .fillMaxHeight(0.5f)
                 .clip(RoundedCornerShape(bottomEnd = 20.dp, bottomStart = 20.dp)),
             contentScale = ContentScale.Crop
         )
